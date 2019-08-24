@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: resilience4j
+server:
+  port: 8004
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8000/eureka
+
+
+# resilience4j 重试配置 aop式
+#resilience4j.retry:
+#  retryAspectOrder: 399 # 优先级
+#  backends: # 配置不同的重试策略
+#    retryBackendA: #策略名称
+#      maxRetryAttempts: 3 #最大重试次数
+#      waitDuration: 600 # 下次重试等待时间
+#      eventConsumerBufferSize: 1
+#      enableExponentialBackoff: true
+#      exponentialBackoffMultiplier: 2
+#      enableRandomizedWait: false
+#      randomizedWaitFactor: 2
+#      retryExceptionPredicate: com.yonyou.resilience4j.RecordFailurePredicate #什么样的异常会被认定是请求失败
+#      retryExceptions:
+#        - java.io.IOException # 需要重试的异常
+#      ignoreExceptions:
+#        - com.yonyou.resilience4j.IgnoredException #被忽略的异常
