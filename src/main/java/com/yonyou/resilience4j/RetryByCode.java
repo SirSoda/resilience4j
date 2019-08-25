@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 
+/**
+ * 编程式方式实现retry
+ * mxf
+ * 2019年08月24日21:36:19
+ */
 @RestController
-public class HelloController2 {
+public class RetryByCode {
 
     @Autowired
     private FeignHelloService helloService;
@@ -21,7 +26,7 @@ public class HelloController2 {
                 .maxAttempts(3)
                 .waitDuration(Duration.ofMillis(5000)) // 下次重试等待时间
                 .build();
-        Retry retry = Retry.of("retryA", config);
+        Retry retry = Retry.of("retryB", config);
         Try<String> result = Try.ofSupplier(Retry.decorateSupplier(retry, () -> helloService.hello(name)));
         return result.get();
     }

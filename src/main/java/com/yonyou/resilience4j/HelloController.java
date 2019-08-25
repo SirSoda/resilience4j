@@ -1,25 +1,19 @@
 package com.yonyou.resilience4j;
 
-import com.yonyou.commons.feign.HelloService;
-import io.github.resilience4j.retry.RetryConfig;
-import io.github.resilience4j.retry.annotation.Retry;
-import io.vavr.control.Try;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.Duration;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
-@Retry(name = "retryBackendA")
-public class HelloController{
+public class HelloController {
 
     @Autowired
-    private FeignHelloService helloService;
-
-    @GetMapping("/hello")
-    public String hello(String s) {
-        return helloService.hello(s);
+    private RestTemplate restTemplate;
+    @GetMapping("/hello7")
+    public String hello(String name) {
+        // 要配置代理才行
+        // 否则 GET request for "http://service-provider/hello": service-provider; nested exception is java.net.UnknownHostException: service-provider
+        return restTemplate.getForObject("http://service-provider/hello?name={1}", String.class, name);
     }
-
 }
